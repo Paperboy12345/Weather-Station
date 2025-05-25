@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>The Coolest Weather Station</title>
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			background: linear-gradient(to bottom, #d0e7f9, #f9f9f9);
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-size: cover;
+			text-align: center;
+			padding: 20px;
+			margin: 0;
+		}
+
+		.weather-box {
+			background-color: #e0f7fa;
+			border: 1px solid #333;
+			border-radius: 6px;
+			padding: 10px 20px;
+			box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+			flex: 1 1 200px;
+			max-width: 220px;
+		}
+
+		.weather-container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 10px;
+			margin-bottom: 20px;
+		}
+
+		h1 {
+			color: #333;
+			morgin-bottom: 30px;
+		}
+
+		.weather-box h2 {
+			margin: 0;
+			color: #00796b;
+			font-size: 1.1em;
+		}
+
+		@media (max-width: 768px) {
+			.weather-box {
+				max-width: 70%;
+				width: 70%;
+				max-height: 50px;
+				height: auto;
+				min-height: 50px;
+				padding: 8px 12px;
+			}
+			.weather-container {
+				flex-direction: column;
+				align-items: center;
+			}
+			body {
+				padding: 10px;
+				text-align: left;
+			}
+			h1 {
+				text-align: center;
+			}
+		}
+
+		.graph-img {
+			max-width: 100%;
+			height: auto;
+			display: block;
+			margin: 20px auto;
+			border: 2px solid #ccc;
+			border-radius: 8px;
+			box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+		}
+	</style>
+</head>
+<body>
+	<h1>Current Weather</h1>
+
+	<div class="weather-container">
+		<div class="weather-box"><h2>Temperature: {{ temp }} C</h2></div>
+		<div class="weather-box"><h2>Humidity: {{ hum }} %</h2></div>
+		<div class="weather-box"><h2>Pressure: {{ press }} hPa</h2></div>
+		<div class="weather-box"><h2>Wind Speed: {{ wind }} km/h</h2></div>
+		<div class="weather-box"><h2>Rain: {{ rainpercent }} %, it's {{ rain_status }}</h2></div>
+		<div class="weather-box"><h2>Light: {{ light_status }}</h2></div>
+	</div>
+	
+	
+	<form method="POST" action="/" style="margin-bottom: 20px;">
+		<label for="year">Year:</label>
+		<select name="year" id="year" required>
+			{% for y in years %}
+				<option value="{{ y }}">{{ y }}</option>
+			{% endfor %}
+		</select>
+
+		<label for="month">Month:</label>
+		<select name="month" id="month">
+			<option value="">--</option>
+			{% for m in months %}
+				<option value="{{ m }}">{{ m }}</option>
+			{% endfor %}
+		</select>
+
+		<label for="day">Day:</label>
+		<select name="day" id="day">
+			<option value="">--</option>
+			{% for d in days %}
+				<option value="{{ d }}">{{ d }}</option>
+			{% endfor %}
+		</select> 
+
+		<label for="datatype">Data Type:</label>
+		<select name="datatype" id="datatype">
+			<option value="temp">Temperature</option>
+			<option value="humidity">Humidity</option>
+			<option value="light">Light</option>
+			<option value="rain">Rain</option>
+			<option value="wind">Wind</option>
+		</select>
+
+		<input type="submit" value="Generate Graph">
+	</form>
+
+	{% if graph_url %}
+		<img src="{{ graph_url }}" alt="Generated Graph" class="graph-img">
+	{% endif %}
+
+
+</body>
+</html>
